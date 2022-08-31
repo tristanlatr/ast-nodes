@@ -125,9 +125,10 @@ _ParentT = nodes.AST
 class Rewriter(_BaseRewriter[_InputT, _OutputT, _ParentT]):
     """Rewrites ast"""
 
-    def __init__(self, nodes:Nodes=nodes) -> None:
+    def __init__(self, nodes:NodesT=Nodes) -> None:
         """
-        @param nodes: Module that contains all the nodes classes.
+        @param nodes: Namespace that contains all the nodes classes.
+            It can be a module or a subclass of Nodes.
         """
         self.nodes = nodes
 
@@ -167,6 +168,8 @@ def format_rewriter(io:TextIO,
                           python_version: Tuple[int,int]):
     def l(_l:str, level=0):
         io.write(indent(_l, '    '*level) + "\n")
+
+    version_str = ''.join(str(v) for v in python_version)
     l(f'''"""AST rewriter for python {'.'.join(str(v) for v in python_version)}"""''')
     l("# this file is auto-generated, please don't edit it directly.")
 
@@ -174,12 +177,19 @@ def format_rewriter(io:TextIO,
     l("from typing import Any, Generic, TypeVar, Optional, Literal, Union, Protocol, Type, TYPE_CHECKING, overload")
     
     # Import nodes modules relatively.
-    l(f"from ..nodes import nodes{''.join(str(v) for v in python_version)} as nodes")
+    l(f"from ..nodes import nodes{version_str} as nodes")
     l("")
-    l("class Nodes(Protocol):")
+    l("class NodesT(Protocol):")
     # generate the Protocol for the nodes.py module.
     for typename, fields in specs:
         l(f"{typename}: Type[nodes.{typename}]", level=1)
+    l("")
+
+    l("class Nodes(NodesT):")
+    l(f'''"""Class that aliases all concrete node classes as found in nodes{version_str}.py file."""''', level=1)
+    # generate the default implementation of the NodesT Protocol.
+    for typename, fields in specs:
+        l(f"{typename} = nodes.{typename}", level=1)
     l("")
 
     l("T_i = TypeVar('T_i')")
@@ -447,7 +457,7 @@ class ASTLibraryGenerator:
                 major, minor = pyversion
                 _else = '' if i==0 else 'el'
                 l(f'{_else}if ver == ({major},{minor}):')
-                l(f'from .rewriter{major}{minor} import Rewriter', level=1)
+                l(f'from .rewriter{major}{minor} import *', level=1)
                 
             l("else: raise NotImplementedError(f'python version not supported: {ver}')")
 
