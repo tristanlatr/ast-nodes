@@ -416,6 +416,7 @@ class ASTLibraryGenerator:
             f.write(src_text)
 
     def write_nodes_init_module(self) -> None:
+        # TODO: generate __all__ for all versions.
 
         module_path = self.library_path / 'nodes'
         module_path.mkdir(parents=True, exist_ok=True)
@@ -443,7 +444,8 @@ class ASTLibraryGenerator:
             f.write(src_text)
 
     def write_rewriter_init_module(self) -> None:
-    
+        # TODO: generate __all__ for all versions.
+        
         module_path = self.library_path / 'rewriter'
         module_path.mkdir(parents=True, exist_ok=True)
 
