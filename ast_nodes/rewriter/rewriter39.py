@@ -1,9 +1,11 @@
 """AST rewriter for python 3.9"""
 # this file is auto-generated, please don't edit it directly.
 import ast, builtins
-from typing import Any, Generic, TypeVar, Optional, Union, Protocol, Type, TYPE_CHECKING, overload
+from typing import Any, Generic, TypeVar, Optional, Union, Type, TYPE_CHECKING, overload
 if TYPE_CHECKING:
-    from typing import Literal
+    from typing import Literal, Protocol
+else:
+    Protocol = object
 from ..nodes import nodes39 as nodes
 
 class NodesT(Protocol):
