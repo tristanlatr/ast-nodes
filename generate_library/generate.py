@@ -174,8 +174,10 @@ def format_rewriter(io:TextIO,
     l("# this file is auto-generated, please don't edit it directly.")
 
     l("import ast, builtins")
-    l("from typing import Any, Generic, TypeVar, Optional, Literal, Union, Protocol, Type, TYPE_CHECKING, overload")
-    
+    l("from typing import Any, Generic, TypeVar, Optional, Union, Protocol, Type, TYPE_CHECKING, overload")
+    l("if TYPE_CHECKING:")
+    l("from typing import Literal", level=1)
+
     # Import nodes modules relatively.
     l(f"from ..nodes import nodes{version_str} as nodes")
     l("")
@@ -255,15 +257,18 @@ def format_augmented_nodes(io:TextIO,
                           specs: List[Tuple[str, List[Tuple[str, str]]]], 
                           stub_ast: ast.Module, 
                           python_version: Tuple[int,int]) -> str:
-    def l(_l):
-        io.write(_l + "\n")
+    def l(_l:str, level=0):
+        io.write(indent(_l, '    '*level) + "\n")
+
     l(f'''"""AST nodes for python {'.'.join(str(v) for v in python_version)}"""''')
     l("# this file is auto-generated, please don't edit it directly.")
 
     if python_version>= (3,7):
         l("from __future__ import annotations")
     l("import ast")
-    l("from typing import Optional, Any, Literal")
+    l("from typing import Optional, Any, TYPE_CHECKING")
+    l("if TYPE_CHECKING:")
+    l("from typing import Literal", level=1)
     l("_unset:Any = object()")
     l("_unset_init:Any = object()")
     
