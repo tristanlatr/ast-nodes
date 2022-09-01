@@ -174,11 +174,12 @@ def format_rewriter(io:TextIO,
     l("# this file is auto-generated, please don't edit it directly.")
 
     l("import ast, builtins")
-    l("from typing import Any, Generic, TypeVar, Optional, Union, Protocol, Type, TYPE_CHECKING, overload")
+    l("from typing import Any, Generic, TypeVar, Optional, Union, Type, TYPE_CHECKING, overload")
     l("if TYPE_CHECKING:")
-    l("from typing import Literal", level=1)
-
-    # Import nodes modules relatively.
+    l("from typing import Literal, Protocol", level=1)
+    l("else:")
+    l("Protocol = object", level=1)
+    # Import nodes modules relatively so we don't care about package name.
     l(f"from ..nodes import nodes{version_str} as nodes")
     l("")
     l("class NodesT(Protocol):")
@@ -269,6 +270,8 @@ def format_augmented_nodes(io:TextIO,
     l("from typing import Optional, Any, TYPE_CHECKING")
     l("if TYPE_CHECKING:")
     l("from typing import Literal", level=1)
+    l("")
+
     l("_unset:Any = object()")
     l("_unset_init:Any = object()")
     
