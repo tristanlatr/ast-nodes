@@ -2,7 +2,9 @@
 # this file is auto-generated, please don't edit it directly.
 from __future__ import annotations
 import ast
-from typing import Optional, Any, Literal
+from typing import Optional, Any, TYPE_CHECKING
+if TYPE_CHECKING:
+    from typing import Literal
 _unset:Any = object()
 _unset_init:Any = object()
 

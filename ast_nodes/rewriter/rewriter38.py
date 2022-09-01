@@ -1,7 +1,9 @@
 """AST rewriter for python 3.8"""
 # this file is auto-generated, please don't edit it directly.
 import ast, builtins
-from typing import Any, Generic, TypeVar, Optional, Literal, Union, Protocol, Type, TYPE_CHECKING, overload
+from typing import Any, Generic, TypeVar, Optional, Union, Protocol, Type, TYPE_CHECKING, overload
+if TYPE_CHECKING:
+    from typing import Literal
 from ..nodes import nodes38 as nodes
 
 class NodesT(Protocol):

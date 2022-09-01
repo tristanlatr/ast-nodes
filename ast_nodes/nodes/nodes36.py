@@ -1,7 +1,9 @@
 """AST nodes for python 3.6"""
 # this file is auto-generated, please don't edit it directly.
 import ast
-from typing import Optional, Any, Literal
+from typing import Optional, Any, TYPE_CHECKING
+if TYPE_CHECKING:
+    from typing import Literal
 _unset:Any = object()
 _unset_init:Any = object()
 
