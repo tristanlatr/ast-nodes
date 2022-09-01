@@ -21,6 +21,6 @@ def parse_randommodules(nodes:rewriter.NodesT=nodes,
     for entry in (Path(__file__).parent / 'randommodules').iterdir():
         if entry.is_file():
             # Don't parse some modules if we're on python 3.6, it triggers invalid syntax errors.
-            if entry.stem in ['mod4', 'mod1', 'mod5'] and sys.version_info < (3,7):
+            if entry.stem in ['mod4', 'mod1', 'mod5', 'mod2'] and sys.version_info < (3,7):
                 continue
             yield parse_mod('randommodules', entry.stem, nodes=nodes, rewritercls=rewritercls)
