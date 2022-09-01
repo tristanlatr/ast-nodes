@@ -54,7 +54,7 @@ jobs:
       
       - name: Build
         run: |
-          python setup.py --quiet build check sdist bdist_wheel
+          python setup.py --quiet build
           ls -alh ./dist/
       
       - name: Publish to PyPI on tags
